@@ -43,7 +43,7 @@ export const siteConfig = {
   gitalkConfig: {
     clientID: "Ov23ctQsmt7vPsj3xIex",
     clientSecret: "dbc3436aacf1d029c8a7051d86f573d6e785329c",
-    repo: "Volga",
+    repo: "blog-comments",
     owner: "jaychou4399",
     admin: ["jaychou4399"],
   },
