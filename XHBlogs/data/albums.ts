@@ -8,7 +8,7 @@ export const albums: Album[] = [
     "title": "泰拉大陆纪行",
     "description": "关于源石、孤星与前文明的视觉记录（测试用相册）",
     "cover": "https://bu.dusays.com/2026/03/24/69c24230de927.jpg",
-    "date": "2026.01",
+    "date": "2026.07.21",
     "photos": [
       {
         "url": "https://bu.dusays.com/2026/03/31/69cb69bb530d8.jpg",
@@ -25,7 +25,7 @@ export const albums: Album[] = [
     "title": "唐宋历史巡游",
     "description": "寻访千年前的长安与汴梁遗迹（测试用相册）",
     "cover": "https://bu.dusays.com/2026/03/24/69c24230a4efe.jpg",
-    "date": "2025.10",
+    "date": "2026.07.21",
     "photos": [
       {
         "url": "https://bu.dusays.com/2026/03/24/69c24230a5ff8.jpg",
