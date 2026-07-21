@@ -29,7 +29,7 @@ export const siteConfig = {
 
   // 5. 首页照片墙预览图
   photoWallImage: "https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg",
-  cloudMusicIds: ["17950787380", "1809646618", "3361076230", "1859390262"],
+  cloudMusicIds: ["22705493", "1809646618", "3361076230", "1859390262"],
   social: { github: "https://github.com/jaychou4399", bilibili: "https://space.bilibili.com/3546737574677246", xiaoheihe: "https://xiaoheihe.cn/app/user/profile/75610259", gitee: "", google: "", email: "", qq: "", wechat: "", },
   counts: {
     photos: 128, // 照片墙数量可以手动写死或动态计算
