@@ -1,97 +1,72 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from "next/server";
 
-const NET_EASE_HEADERS = {
-  'User-Agent':
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-  Referer: 'https://music.163.com/',
-}
+// Meting API 代理 - 网易云音乐
+// type=song 返回歌曲详情 (name, artist, url, pic, lrc 均为可用的代理地址)
+const METING_BASE = "https://api.injahow.cn/meting/";
 
 type SongResult = {
-  id: string
-  name?: string
-  artist?: string
-  author?: string
-  cover?: string
-  pic?: string
-  url?: string
-  lrc?: string
-  error?: string
-}
-
-async function fetchSongDetail(songId: string): Promise<any> {
-  // 优先用新接口（支持 11 位 ID）
-  try {
-    const res = await fetch(
-      `https://music.163.com/api/v3/song/detail?c=${encodeURIComponent(JSON.stringify([{id: Number(songId), v: 0}]))}`,
-      { headers: NET_EASE_HEADERS, signal: AbortSignal.timeout(6000) },
-    )
-    if (res.ok) {
-      const data = await res.json()
-      const song = data.songs?.[0]
-      if (song) return song
-    }
-  } catch { /* fall through */ }
-
-  // 回退到老接口
-  try {
-    const res = await fetch(
-      `https://music.163.com/api/song/detail/?id=${songId}&ids=[${songId}]`,
-      { headers: NET_EASE_HEADERS, signal: AbortSignal.timeout(6000) },
-    )
-    if (res.ok) {
-      const data = await res.json()
-      const song = data.songs?.[0]
-      if (song) return song
-    }
-  } catch { /* fall through */ }
-
-  return null
-}
+  id: string;
+  name?: string;
+  artist?: string;
+  author?: string;
+  cover?: string;
+  pic?: string;
+  url?: string;
+  lrc?: string;
+  error?: string;
+};
 
 export async function GET(request: NextRequest) {
-  const ids = request.nextUrl.searchParams.get('ids')
+  const ids = request.nextUrl.searchParams.get("ids");
   if (!ids) {
-    return NextResponse.json({ error: 'Missing ids parameter' }, { status: 400 })
+    return NextResponse.json({ error: "Missing ids parameter" }, { status: 400 });
   }
 
-  const songIds = ids.split(',').map((id) => id.trim()).filter(Boolean)
+  const songIds = ids.split(",").map((id) => id.trim()).filter(Boolean);
 
   const results: SongResult[] = await Promise.all(
     songIds.map(async (songId): Promise<SongResult> => {
       try {
-        const [song, lrcData] = await Promise.all([
-          fetchSongDetail(songId),
-          fetch(
-            `https://music.163.com/api/song/lyric?id=${songId}&lv=-1&kv=-1&tv=-1`,
-            { headers: NET_EASE_HEADERS, signal: AbortSignal.timeout(6000) },
-          ).then(r => r.ok ? r.json() : null).catch(() => null),
-        ])
+        // 获取歌曲详情 (name, artist, cover, play_url, lrc_url)
+        const detailRes = await fetch(
+          `${METING_BASE}?server=netease&type=song&id=${songId}`
+        );
+        const detailData = await detailRes.json().catch(() => []);
+        const song = detailData?.[0];
 
-        if (!song) {
-          return { id: songId, error: 'not_found' }
+        if (!song || !song.name) {
+          return { id: songId, error: "not_found" };
         }
 
-        let lrcText = ''
-        try { lrcText = lrcData?.lrc?.lyric || '' } catch { /* ok */ }
+        // 获取歌词文本
+        let lrcText = "";
+        try {
+          const lrcRes = await fetch(
+            `${METING_BASE}?server=netease&type=lrc&id=${songId}`
+          );
+          lrcText = await lrcRes.text();
+        } catch { /* ok */ }
 
-        const artistName = song.ar?.[0]?.name || song.artists?.[0]?.name || '未知歌手'
+        // song.url 直接就是可播放的音频代理地址
+        // song.pic 是封面代理地址
+        // song.lrc 是歌词代理地址 (但我们已经单独获取了文本)
 
         return {
           id: songId,
           name: song.name,
-          artist: artistName,
-          author: artistName,
-          cover: song.al?.picUrl || song.album?.picUrl || '',
-          pic: song.al?.picUrl || song.album?.picUrl || '',
-          url: `https://music.163.com/song/media/outer/url?id=${songId}.mp3`,
+          artist: song.artist || song.author || "未知歌手",
+          author: song.artist || song.author || "未知歌手",
+          cover: song.pic || song.cover || "",
+          pic: song.pic || song.cover || "",
+          url: song.url || "",
           lrc: lrcText,
-        }
+        };
       } catch (error) {
-        console.error(`[api/music] 获取歌曲 ${songId} 失败:`, error)
-        return { id: songId, error: String(error) }
+        console.error(`[api/music] 获取歌曲 ${songId} 失败:`, error);
+        return { id: songId, error: String(error) };
       }
-    }),
-  )
+    })
+  );
 
-  return NextResponse.json(results)
+  return NextResponse.json(results);
 }
