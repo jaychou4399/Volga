@@ -61,9 +61,9 @@ export const siteConfig = {
   // Giscus 评论（替代 Gitalk，更稳定）
   giscusConfig: {
     repo: "jaychou4399/Volga",
-    repoId: "YOUR_REPO_ID",           // 去 https://giscus.app 获取
+    repoId: "R_kgDOTe58mA",           // 去 https://giscus.app 获取
     category: "General",
-    categoryId: "YOUR_CATEGORY_ID",   // 去 https://giscus.app 获取
+    categoryId: "DIC_kwDOTe58mM4DBqfh",   // 去 https://giscus.app 获取
     mapping: "pathname",
     strict: "0",
     reactionsEnabled: "1",
