@@ -61,10 +61,6 @@ export const albums: Album[] = [
         "caption": "釉色敦煌"
       },
       {
-        "url": "https://bu.dusays.com/2026/07/21/6a5f865ce2263.jpg",
-        "caption": "滕王阁模型01"
-      },
-      {
         "url": "https://bu.dusays.com/2026/07/21/6a5f866118e3a.jpg",
         "caption": "树雕"
       },
