@@ -57,5 +57,19 @@ export const siteConfig = {
     temperature: 0.85,
   },
   friendLinkApplyFormat: "名称：JayChouの宝藏之地\n简介：今天我也要学习吗\n链接：https://volga.vercel.app\n头像：https://bu.dusays.com/2026/03/24/69c1e38ac1846.jpg",
-  enableLevelSystem: true,
+
+  // Giscus 评论（替代 Gitalk，更稳定）
+  giscusConfig: {
+    repo: "jaychou4399/Volga",
+    repoId: "YOUR_REPO_ID",           // 去 https://giscus.app 获取
+    category: "General",
+    categoryId: "YOUR_CATEGORY_ID",   // 去 https://giscus.app 获取
+    mapping: "pathname",
+    strict: "0",
+    reactionsEnabled: "1",
+    emitMetadata: "0",
+    inputPosition: "top",
+    theme: "preferred_color_scheme",
+    lang: "zh-CN",
+  },  enableLevelSystem: true,
 };
