@@ -84,7 +84,8 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     let isMounted = true;
     const fetchMusicData = async () => {
       try {
-        const res = await fetch(`/api/music?ids=${siteConfig.cloudMusicIds.join(',')}`);
+        const apiUrl = siteConfig.cloudMusicPlaylistId ? `/api/music?playlist=${siteConfig.cloudMusicPlaylistId}` : `/api/music?ids=${(siteConfig.cloudMusicIds || []).join(",")}`;
+        const res = await fetch(apiUrl);
         const rawResults = await res.json();
 
         const mergedPlaylist = rawResults
@@ -109,7 +110,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    if (siteConfig.cloudMusicIds?.length > 0) fetchMusicData();
+    if (siteConfig.cloudMusicPlaylistId || siteConfig.cloudMusicIds?.length > 0) fetchMusicData();
     else setIsLoading(false);
 
     return () => { isMounted = false; };
