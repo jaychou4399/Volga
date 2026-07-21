@@ -1,26 +1,44 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+const GITHUB_CLIENT_ID = "Ov23ctQsmt7vPsj3xIex";
+const GITHUB_CLIENT_SECRET = "dbc3436aacf1d029c8a7051d86f573d6e785329c";
+
+export async function POST(req: NextRequest) {
   try {
-    // 1. 读取 Gitalk 发过来的数据
     const body = await req.text();
 
-    // 2. 由我们自己的服务器在后台偷偷发给 GitHub，完美绕过浏览器的跨域拦截！
-    const githubRes = await fetch('https://github.com/login/oauth/access_token', {
-      method: 'POST',
+    // 解析 Gitalk 发来的 code
+    let code = "";
+    try {
+      const params = new URLSearchParams(body);
+      code = params.get("code") || "";
+    } catch {
+      const json = JSON.parse(body);
+      code = json.code || "";
+    }
+
+    if (!code) {
+      return NextResponse.json({ error: "Missing code" }, { status: 400 });
+    }
+
+    // 服务端直接换取 token，不依赖客户端传 client_secret
+    const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
+      method: "POST",
       headers: {
-        'Content-Type': req.headers.get('content-type') || 'application/json',
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-      body: body,
+      body: JSON.stringify({
+        client_id: GITHUB_CLIENT_ID,
+        client_secret: GITHUB_CLIENT_SECRET,
+        code,
+      }),
     });
 
-    // 3. 把 GitHub 的成功响应原封不动地还给前端 Gitalk
-    const data = await githubRes.json();
+    const data = await tokenRes.json();
     return NextResponse.json(data);
-
-  } catch (error) {
-    console.error('代理请求失败:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  } catch (error: any) {
+    console.error("[github proxy] error:", error.message);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
