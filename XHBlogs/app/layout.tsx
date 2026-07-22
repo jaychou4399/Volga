@@ -100,7 +100,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             })
           }}
         />
-                <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
         <meta name="baidu-site-verification" content="codeva-YOUR_CODE" />
         <meta name="theme-color" content="#6366f1" />
         <style
@@ -124,7 +123,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             `
           }}
         />
-              <script defer src="https://cloud.umami.is/script.js" data-website-id="YOUR_UMAMI_ID"></script>
+              <script defer src="https://cloud.umami.is/script.js" data-website-id="fa72bf4d-deaf-431b-9b0f-dc7cd26b3ff6"></script>
   </head>
 
       <body className="w-screen overflow-x-hidden min-h-full flex flex-col relative transition-colors duration-1000 bg-slate-50 dark:bg-slate-950 font-serif">
