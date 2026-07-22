@@ -1,66 +1,123 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import Navbar from '../../components/Navbar';
-import PageTransition from '../../components/PageTransition';
-import { siteConfig } from '../../siteConfig';
-import TimelineClient from '../../components/TimelineClient';
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import Navbar from "../../components/Navbar";
+import PageTransition from "../../components/PageTransition";
+import { siteConfig } from "../../siteConfig";
+import TimelineClient from "../../components/TimelineClient";
+import { ToastProvider } from "../../components/ToastProvider";
+
+export const metadata = {
+  title: "归档与探索 | " + siteConfig.title,
+};
+
+interface TimelineItem {
+  type: "post" | "chatter" | "moment";
+  slug?: string;
+  id?: string;
+  title: string;
+  date: string;
+  description?: string;
+  content?: string;
+  tags: string[];
+  cover?: string;
+  location?: string;
+  images?: string[];
+  mood?: string;
+}
 
 export default function Timeline() {
-  const postsDirectory = path.join(process.cwd(), 'posts');
-  let posts: any[] = [];
-  let tagCounts: Record<string, number> = {};
+  const items: TimelineItem[] = [];
 
+  // 1. 加载文章
+  const postsDir = path.join(process.cwd(), "posts");
   try {
-    if (fs.existsSync(postsDirectory)) {
-      const fileNames = fs.readdirSync(postsDirectory).filter(f => f.endsWith('.md'));
-
-      fileNames.forEach(fileName => {
-        const slug = fileName.replace(/\.md$/, '');
-        const fullPath = path.join(postsDirectory, fileName);
-
-        // 🌟 核心清理：不再读取物理状态 (stats)，彻底抛弃 mtime
-        const fileContents = fs.readFileSync(fullPath, 'utf8');
-        const { data } = matter(fileContents);
-
-        const postTags = data.tags && Array.isArray(data.tags) ? data.tags : ['未分类'];
-
-        postTags.forEach(tag => {
-          tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+    if (fs.existsSync(postsDir)) {
+      fs.readdirSync(postsDir)
+        .filter((f) => f.endsWith(".md"))
+        .forEach((fileName) => {
+          const slug = fileName.replace(/\.md$/, "");
+          const { data } = matter(fs.readFileSync(path.join(postsDir, fileName), "utf8"));
+          items.push({
+            type: "post",
+            slug,
+            title: data.title || "无标题",
+            date: data.date || "1970-01-01",
+            description: data.description || "",
+            tags: Array.isArray(data.tags) ? data.tags : ["未分类"],
+            cover: data.cover || siteConfig.defaultPostCover,
+          });
         });
-
-        posts.push({
-          slug,
-          title: data.title || '无标题',
-          date: data.date || '1970-01-01',
-          description: data.description || '',
-          tags: postTags,
-          cover: data.cover || siteConfig.defaultPostCover,
-          // 删除了坑人的 mtime
-        });
-      });
-
-      // 🌟 核心修复：权重排序 -> YAML 精确日期第一，slug 字母表第二
-      posts.sort((a, b) => {
-        const dateDiff = new Date(b.date).getTime() - new Date(a.date).getTime();
-        // 如果两篇文章的日期和时分秒完全一样，按文件名排序兜底，确保在任何服务器上顺序一致
-        return dateDiff !== 0 ? dateDiff : b.slug.localeCompare(a.slug);
-      });
     }
-  } catch(e) {
-    console.error("读取文章列表失败", e);
-  }
+  } catch (e) { console.error("读取文章失败", e); }
 
+  // 2. 加载杂谈
+  const chattersDir = path.join(process.cwd(), "chatters");
+  try {
+    if (fs.existsSync(chattersDir)) {
+      fs.readdirSync(chattersDir)
+        .filter((f) => f.endsWith(".md"))
+        .forEach((fileName) => {
+          const slug = fileName.replace(/\.md$/, "");
+          const { data } = matter(fs.readFileSync(path.join(chattersDir, fileName), "utf8"));
+          items.push({
+            type: "chatter",
+            slug,
+            title: data.title || "杂谈",
+            date: data.date || "1970-01-01",
+            tags: Array.isArray(data.tags) ? data.tags : [],
+            cover: data.cover || siteConfig.defaultPostCover,
+            mood: data.mood || "",
+          });
+        });
+    }
+  } catch (e) { console.error("读取杂谈失败", e); }
+
+  // 3. 加载说说
+  const momentsDir = path.join(process.cwd(), "moments");
+  try {
+    if (fs.existsSync(momentsDir)) {
+      fs.readdirSync(momentsDir)
+        .filter((f) => f.endsWith(".md"))
+        .forEach((fileName) => {
+          const id = fileName.replace(/\.md$/, "");
+          const { data, content } = matter(fs.readFileSync(path.join(momentsDir, fileName), "utf8"));
+          items.push({
+            type: "moment",
+            id,
+            title: "说说",
+            date: data.date || "1970-01-01",
+            content: content.trim().substring(0, 80),
+            tags: [],
+            location: data.location || "",
+            images: data.images || [],
+          });
+        });
+    }
+  } catch (e) { console.error("读取说说失败", e); }
+
+  // 按日期倒序
+  items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  // 统计标签（仅文章和杂谈）
+  const tagCounts: Record<string, number> = {};
+  items.forEach((item) => {
+    item.tags.forEach((tag) => {
+      tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+    });
+  });
   const tagsArray = Object.keys(tagCounts)
-    .map(name => ({ name, count: tagCounts[name] }))
+    .map((name) => ({ name, count: tagCounts[name] }))
     .sort((a, b) => b.count - a.count);
 
   return (
-    <div className="min-h-screen relative pb-32">
-      <Navbar />
-      <PageTransition>
-        <TimelineClient posts={posts} tags={tagsArray} />
-      </PageTransition>
-    </div>
+    <ToastProvider>
+      <div className="min-h-screen relative pb-32">
+        <Navbar />
+        <PageTransition>
+          <TimelineClient items={items} tags={tagsArray} />
+        </PageTransition>
+      </div>
+    </ToastProvider>
   );
 }

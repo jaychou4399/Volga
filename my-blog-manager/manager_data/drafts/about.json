@@ -1,0 +1,12 @@
+{
+  "id": "about",
+  "type": "about",
+  "title": "关于我",
+  "description": "",
+  "content": "<h2><strong>你好，我是 JayChou 👋</strong></h2><p>一名普通的大学社畜，在代码与生活的夹缝中努力生存。</p><p><strong>💻 技术栈</strong></p><ul><li><p>日常折腾各种奇怪的项目</p></li><li><p>偶尔写点代码解决实际问题</p></li><li><p>对嵌入式开发和硬件也有兴趣</p></li></ul><p><strong>📷 生活</strong></p><ul><li><p>喜欢随手拍点照片，记录生活碎片</p></li><li><p>偶尔打打游戏，放松心情</p></li></ul><p><strong>🌐 关于这个博客</strong></p><p>这里是我的一片自留地。不追求流量，不迎合算法，只记录自己想记录的东西。</p><blockquote><p><em>不必着急成为很厉害的人，只要每天都比昨天前进一步，就已经足够了。</em></p></blockquote><br>&zwj;",
+  "cover": "https://bu.dusays.com/2026/03/24/69c23dc278c78.jpg",
+  "tags": [],
+  "mood": "",
+  "date": "2026-03-31",
+  "lastModified": 1784713334790
+}
