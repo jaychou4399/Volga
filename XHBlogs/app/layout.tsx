@@ -186,7 +186,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
           <div className="hidden md:block">
             <CyberCat />
-          </div>`n          <BackToTop />
+          </div>
+          <BackToTop />
         </ThemeProvider>
       </body>
     </html>
