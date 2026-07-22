@@ -81,6 +81,25 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="zh-CN" className={`${geistSans.variable} ${geistMono.variable} ${notoSerif.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
+        <link rel="manifest" href="/manifest.json" />
+                <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": siteConfig.title,
+              "url": "https://volga-blog.vercel.app",
+              "description": siteConfig.bio,
+              "author": {
+                "@type": "Person",
+                "name": siteConfig.authorName,
+                "url": siteConfig.social.github
+              }
+            })
+          }}
+        />
+        <meta name="theme-color" content="#6366f1" />
         <style
           suppressHydrationWarning
           dangerouslySetInnerHTML={{

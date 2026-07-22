@@ -1,0 +1,14 @@
+{
+  "name": "JayChou · Digital Garden",
+  "short_name": "JayChou",
+  "description": "大学社畜的数字花园",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/avatar.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/avatar.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

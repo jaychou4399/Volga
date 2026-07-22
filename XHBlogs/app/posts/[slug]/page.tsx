@@ -24,6 +24,7 @@ import BackButton from '../../../components/BackButton';
 import Comments from '../../../components/Comments';
 import SidebarLyric from '../../../components/SidebarLyric';
 import PostEnhancements from '../../../components/PostEnhancements';
+import MermaidRenderer from '../../../components/MermaidRenderer';
 import AISummary from '../../../components/AISummary';
 
 export async function generateStaticParams() {
@@ -263,11 +264,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
                 <AISummary slug={postData.slug} />
 
 
-                <div
-                  id="article-content"
-                  className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 transition-colors duration-700 scroll-smooth"
-                  dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
-                />
+                <div id="article-content" className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 transition-colors duration-700 scroll-smooth"><MermaidRenderer contentHtml={postData.contentHtml} /></div>
               </div>
 
               <PostEnhancements contentHtml={postData.contentHtml} prev={prevPost} next={nextPost} navOnly />
