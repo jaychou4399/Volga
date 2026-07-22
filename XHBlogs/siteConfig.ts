@@ -71,6 +71,5 @@ export const siteConfig = {
     inputPosition: "top",
     theme: "preferred_color_scheme",
     lang: "zh-CN",
-  },  walineServerURL: "https://jaychou-waline.vercel.app/",
-  enableLevelSystem: true,
+  },  enableLevelSystem: true,
 };
