@@ -22,6 +22,8 @@ import { siteConfig } from '../../../siteConfig';
 import ClientSocials from '../../../components/ClientSocials';
 import SidebarLyric from '../../../components/SidebarLyric';
 import BackButton from '../../../components/BackButton';
+import MermaidRenderer from '../../../components/MermaidRenderer';
+import BackToTop from '../../../components/BackToTop';
 import Comments from '../../../components/Comments';
 
 export async function generateStaticParams() {
@@ -274,9 +276,7 @@ export default async function ChatterDetail({ params }: { params: Promise<{ slug
                 `}</style>
 
                 <div
-                  className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 font-serif transition-colors duration-700 leading-relaxed scroll-smooth"
-                  dangerouslySetInnerHTML={{ __html: chatterData.contentHtml }}
-                />
+                  className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 font-serif transition-colors duration-700 leading-relaxed scroll-smooth"><MermaidRenderer contentHtml={chatterData.contentHtml} /></div>
               </div>
 
               <div className="mt-10 md:mt-12">
@@ -332,6 +332,7 @@ export default async function ChatterDetail({ params }: { params: Promise<{ slug
             </div>
           </aside>
         </main>
+      <BackToTop />
       </PageTransition>
     </div>
   );
