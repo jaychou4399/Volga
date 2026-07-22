@@ -23,6 +23,7 @@ import ClientTOC from '../../../components/ClientTOC';
 import BackButton from '../../../components/BackButton';
 import Comments from '../../../components/Comments';
 import SidebarLyric from '../../../components/SidebarLyric';
+import PostEnhancements from '../../../components/PostEnhancements';
 
 export async function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), 'posts');
@@ -128,6 +129,12 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
   const resolvedParams = await params;
   const postData = await getPostData(resolvedParams.slug);
   const recentPosts = getRecentPosts(resolvedParams.slug);
+  const allSlugs = fs.readdirSync(path.join(process.cwd(), 'posts')).filter(f => f.endsWith('.md'))
+    .map(f => { const s = f.replace('.md', ''); const c = fs.readFileSync(path.join(process.cwd(), 'posts', f), 'utf8'); const { data } = matter(c); return { slug: s, title: data.title || '无标题', date: data.date || '' }; })
+    .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const curIdx = allSlugs.findIndex((p: any) => p.slug === resolvedParams.slug);
+  const prevPost = curIdx < allSlugs.length - 1 ? allSlugs[curIdx + 1] : undefined;
+  const nextPost = curIdx > 0 ? allSlugs[curIdx - 1] : undefined;
 
   return (
     <div className="min-h-screen relative pb-20">
@@ -260,6 +267,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
                 />
               </div>
 
+              <PostEnhancements contentHtml={postData.contentHtml} prev={prevPost} next={nextPost} navOnly />
               <div className="mt-12 md:mt-16">
                 <Comments />
               </div>
