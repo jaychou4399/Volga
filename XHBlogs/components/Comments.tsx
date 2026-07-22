@@ -2,43 +2,43 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
 import { siteConfig } from "../siteConfig";
 
 export default function Comments() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const { theme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    container.innerHTML = "";
-
-    const script = document.createElement("script");
-    script.src = "https://giscus.app/client.js";
-    script.setAttribute("data-repo", siteConfig.giscusConfig.repo);
-    script.setAttribute("data-repo-id", siteConfig.giscusConfig.repoId);
-    script.setAttribute("data-category", siteConfig.giscusConfig.category);
-    script.setAttribute("data-category-id", siteConfig.giscusConfig.categoryId);
-    script.setAttribute("data-mapping", "pathname");
-    script.setAttribute("data-strict", "0");
-    script.setAttribute("data-reactions-enabled", "1");
-    script.setAttribute("data-emit-metadata", "0");
-    script.setAttribute("data-input-position", "top");
-    script.setAttribute("data-theme", resolvedTheme === "dark" ? "dark_dimmed" : "light");
-    script.setAttribute("data-lang", "zh-CN");
-    script.setAttribute("crossorigin", "anonymous");
-    script.async = true;
-
-    container.appendChild(script);
-  }, [pathname, resolvedTheme]);
+    // 动态导入 Waline
+    import("@waline/client").then(({ init }) => {
+      import("@waline/client/style");
+      container.innerHTML = "";
+      init({
+        el: container,
+        serverURL: siteConfig.walineServerURL,
+        path: pathname,
+        lang: "zh-CN",
+        dark: "auto",
+        emoji: [
+          "https://unpkg.com/@waline/emojis@1.2.0/bilibili",
+          "https://unpkg.com/@waline/emojis@1.2.0/qq",
+          "https://unpkg.com/@waline/emojis@1.2.0/weibo",
+          "https://unpkg.com/@waline/emojis@1.2.0/tieba",
+        ],
+        imageUploader: true,
+        search: false,
+        pageSize: 10,
+      });
+    });
+  }, [pathname]);
 
   return (
     <div className="w-full mt-16 relative">
       <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-indigo-500/10 dark:bg-indigo-500/20 blur-3xl rounded-full pointer-events-none z-0"></div>
-      <div ref={containerRef} className="relative z-10 pt-6 border-t border-slate-200/50 dark:border-slate-700/50" />
+      <div ref={containerRef} className="relative z-10 pt-6 border-t border-slate-200/50 dark:border-slate-700/50 waline-glass" />
     </div>
   );
 }

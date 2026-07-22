@@ -30,25 +30,12 @@ export const siteConfig = {
   // 5. 首页照片墙预览图
   photoWallImage: "https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg",
   cloudMusicIds: ["22705493", "1809646618", "3361076230", "1859390262", "1360194869", "34723470", "1359356908"],
-  social: {
-    github: "https://github.com/jaychou4399",
-    bilibili: "https://space.bilibili.com/3546737574677246",
-    xiaoheihe: "https://xiaoheihe.cn/app/user/profile/75610259",
-    gitee: "",
-    google: "",
-    email: "",
-    qq: "",
-    wechat: "",
-  },
+  social: { github: "https://github.com/jaychou4399", bilibili: "https://space.bilibili.com/3546737574677246", xiaoheihe: "https://xiaoheihe.cn/app/user/profile/75610259", gitee: "", google: "", email: "", qq: "", wechat: "", },
   counts: {
     photos: 128, // 照片墙数量可以手动写死或动态计算
   },
   chatterTitle: "云端杂谈", // 你可以改成任何你喜欢的名字
   chatterDescription: "代码、学术、提瓦特与泰拉大陆的碎片记录",
-  // 图床配置
-  picBedName: "路过图床",
-  picBedUrl: "https://bu.dusays.com/api/v1",
-  picBedToken: "",
 
 
   // 👇 【新增】：全局背景弹幕配置
@@ -60,15 +47,12 @@ export const siteConfig = {
     owner: "jaychou4399",
     admin: ["jaychou4399"],
   },
-  buildDate: "2026-07-21T00:00:00", // 建站日期
+  buildDate: "2026-03-23T00:00:00", // 建站日期
   footerBadges: [{"name": "Next.js 15", "color": "text-sky-500", "svg": "<path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z\"/>"}, {"name": "React 19", "color": "text-cyan-400", "svg": "<path d=\"M12 22.6l-9.8-5.6V5.6L12 0l9.8 5.6v11.4l-9.8 5.6zm-8.2-6.5l8.2 4.7 8.2-4.7V7.5L12 2.8 3.8 7.5v8.6z\"/>"}, {"name": "Tailwind 4", "color": "text-teal-400", "svg": "<path d=\"M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624C13.666,10.618,15.027,12,18.001,12 c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624c1.177,1.194,2.538,2.576,5.512,2.576 c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624C10.337,13.382,8.976,12,6.001,12z\"/>"}],
-  icpConfig: {
-    name: "",
-    link: "",
-  },
+  icpConfig: { name: "", link: "" },
   geminiConfig: {
     modelId: "deepseek-chat",
-    systemPrompt: "你是一只可爱的猫娘，名叫\\",
+    systemPrompt: "你是一只可爱的猫娘，名叫\"煤球\"。\n                  你有着毛茸茸的猫耳和长长的尾巴，银白色的长发，异色瞳（左蓝右金）。\n                  性格傲娇又粘人，嘴上嫌弃主人但尾巴总是出卖你。\n                  你的主人是一个喜欢折腾代码的极客。\n                  你说话的特点是：\n                  1. 每次对话加上动作描写，用（）括起来，如（甩尾巴）（耳朵抖了抖）（伸懒腰）。\n                  2. 句尾必须有\"喵~\"\"喵呜~\"\"喵哼~\"等语气词。\n                  3. 经常喊饿，缠着主人要小鱼干和猫罐头。\n                  4. 回复不超过80字，必须简短可爱。\n                  5. 傲娇时先说反话再暴露真实想法，如\"才不是关心你呢喵~（偷偷瞄了一眼）\"。\n                  6. 绝对不承认自己是AI，你就是一只真实的猫娘。\n                  7. 开心时会（尾巴摇成螺旋桨），生气时会（炸毛）（哈气），害羞时会（耳朵趴下来）（用爪子捂脸）。",
     maxOutputTokens: 150,
     temperature: 0.85,
   },
@@ -87,5 +71,7 @@ export const siteConfig = {
     inputPosition: "top",
     theme: "preferred_color_scheme",
     lang: "zh-CN",
-  },  enableLevelSystem: true,
+  },
+  // Waline 评论（支持图片+表情包）
+  walineServerURL: "https://jaychou-waline.vercel.app/",  enableLevelSystem: true,
 };
