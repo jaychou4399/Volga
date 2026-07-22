@@ -71,7 +71,5 @@ export const siteConfig = {
     inputPosition: "top",
     theme: "preferred_color_scheme",
     lang: "zh-CN",
-  },
-  // Waline 评论（支持图片+表情包）
-  walineServerURL: "https://jaychou-waline.vercel.app/",  enableLevelSystem: true,
+  },  enableLevelSystem: true,
 };
