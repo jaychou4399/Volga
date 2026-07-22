@@ -2,38 +2,36 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { siteConfig } from "../siteConfig";
+
+const WALINE_URL = "https://jaychou-waline.vercel.app/";
 
 export default function Comments() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const { theme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    container.innerHTML = "";
-
-    const script = document.createElement("script");
-    script.src = "https://giscus.app/client.js";
-    script.setAttribute("data-repo", siteConfig.giscusConfig.repo);
-    script.setAttribute("data-repo-id", siteConfig.giscusConfig.repoId);
-    script.setAttribute("data-category", siteConfig.giscusConfig.category);
-    script.setAttribute("data-category-id", siteConfig.giscusConfig.categoryId);
-    script.setAttribute("data-mapping", "pathname");
-    script.setAttribute("data-strict", "0");
-    script.setAttribute("data-reactions-enabled", "1");
-    script.setAttribute("data-emit-metadata", "0");
-    script.setAttribute("data-input-position", "top");
-    script.setAttribute("data-theme", resolvedTheme === "dark" ? "dark_dimmed" : "light");
-    script.setAttribute("data-lang", "zh-CN");
-    script.setAttribute("crossorigin", "anonymous");
-    script.async = true;
-
-    container.appendChild(script);
-  }, [pathname, resolvedTheme]);
+    import("@waline/client").then(({ init }) => {
+      import("@waline/client/style");
+      container.innerHTML = "";
+      init({
+        el: container,
+        serverURL: WALINE_URL,
+        path: pathname,
+        lang: "zh-CN",
+        dark: "auto",
+        emoji: [
+          "https://unpkg.com/@waline/emojis@1.2.0/bilibili",
+          "https://unpkg.com/@waline/emojis@1.2.0/qq",
+          "https://unpkg.com/@waline/emojis@1.2.0/weibo",
+        ],
+        imageUploader: true,
+        pageSize: 10,
+      });
+    });
+  }, [pathname]);
 
   return (
     <div className="w-full mt-16 relative">
