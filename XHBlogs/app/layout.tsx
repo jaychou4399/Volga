@@ -100,6 +100,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             })
           }}
         />
+                <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
+        <meta name="baidu-site-verification" content="codeva-YOUR_CODE" />
         <meta name="theme-color" content="#6366f1" />
         <style
           suppressHydrationWarning
@@ -122,7 +124,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             `
           }}
         />
-      </head>
+              <script defer src="https://cloud.umami.is/script.js" data-website-id="YOUR_UMAMI_ID"></script>
+  </head>
 
       <body className="w-screen overflow-x-hidden min-h-full flex flex-col relative transition-colors duration-1000 bg-slate-50 dark:bg-slate-950 font-serif">
         <ThemeProvider>

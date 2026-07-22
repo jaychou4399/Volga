@@ -22,7 +22,8 @@ import { siteConfig } from '../../../siteConfig';
 import ClientSocials from '../../../components/ClientSocials';
 import SidebarLyric from '../../../components/SidebarLyric';
 import BackButton from '../../../components/BackButton';
-import MermaidRenderer from '../../../components/MermaidRenderer';
+import ShareButton from '../../../components/ShareButton';
+import ContentRenderer from '../../../components/MermaidRenderer';
 import BackToTop from '../../../components/BackToTop';
 import Comments from '../../../components/Comments';
 
@@ -276,7 +277,7 @@ export default async function ChatterDetail({ params }: { params: Promise<{ slug
                 `}</style>
 
                 <div
-                  className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 font-serif transition-colors duration-700 leading-relaxed scroll-smooth"><MermaidRenderer contentHtml={chatterData.contentHtml} /></div>
+                  className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 font-serif transition-colors duration-700 leading-relaxed scroll-smooth"><ContentRenderer contentHtml={chatterData.contentHtml} /></div>
               </div>
 
               <div className="mt-10 md:mt-12">
