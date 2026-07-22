@@ -332,8 +332,8 @@ export default async function ChatterDetail({ params }: { params: Promise<{ slug
             </div>
           </aside>
         </main>
-      <BackToTop />
       </PageTransition>
+      <BackToTop />
     </div>
   );
 }
