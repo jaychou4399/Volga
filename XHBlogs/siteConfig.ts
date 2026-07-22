@@ -2,17 +2,17 @@
 
 export const siteConfig = {
   // 1. 网站标题与博主信息
-  title: "JayChouの 宝藏之地",
+  title: "JayChou · Digital Garden",
   faviconUrl: "/avatar.png",
-  authorName: "JayChou",
-  bio: "大学社畜",
+  authorName: "JayChou | 嵌入式开发者",
+  bio: "自动化专业 · 嵌入式开发学习中 · STM32 / Python / C++ · 摄影爱好者 · 2026考研人",
 
-  navTitle: "JayChou",
+  navTitle: "JC",
 
   // 👇 【新增】导航栏中间的那个后缀/分隔符（默认是 の）
   navSuffix: "の",
 
-  navAfter: "宝藏之地",
+  navAfter: "Digital Garden",
 
   // 2. 头像设置 (支持网络链接，或将图片放入 public 文件夹后使用 "/me.jpg")
   avatarUrl: "/avatar.png",
@@ -25,7 +25,7 @@ export const siteConfig = {
   bgImages: ["https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4acdb5.jpg", "https://bu.dusays.com/2026/03/24/69c26fe4d9486.jpg"],
 
   // 4. 文章默认封面图 (当 Markdown 没写 cover 时显示)
-  defaultPostCover: "https://bu.dusays.com/2026/03/24/69c1e38b346cb.jpg",
+  defaultPostCover: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200",
 
   // 5. 首页照片墙预览图
   photoWallImage: "https://bu.dusays.com/2026/03/24/69c1e38b4c370.jpg",
@@ -39,7 +39,7 @@ export const siteConfig = {
 
 
   // 👇 【新增】：全局背景弹幕配置
-  danmakuList: ["在干嘛呢？", "有笨蛋嘛？", "前方高能反应！", "GROMACS 跑起来了吗？", "MD 模拟什么时候才能出图啊", "Graph Neural Networks 炼丹中...", "BUG 修复进度 99%", "今天背单词了吗？", "Tailwind CSS 拯救前端", "写算法中", "睡大觉中", "到底在干嘛？"],
+  danmakuList: ["STM32 HAL库太难了", "今天背单词了吗", "考研数学冲鸭", "Python真香", "嵌入式yyds", "摄影使我快乐", "C指针永远的神", "RTOS学习中", "今天也是元气满满的一天"],
   gitalkConfig: {
     clientID: "Ov23ctQsmt7vPsj3xIex",
     clientSecret: "dbc3436aacf1d029c8a7051d86f573d6e785329c",
