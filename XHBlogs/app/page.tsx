@@ -11,9 +11,8 @@ import CloudPlayer from '../components/CloudPlayer';
 import ThemeToggleBlock from '../components/ThemeToggleBlock';
 import ProfileCard from '../components/ProfileCard';
 import SiteDashboard from '../components/SiteDashboard';
-import HeroBanner from "../components/HeroBanner";
+import { albums } from '../data/albums';
 import LyricBar from '../components/LyricBar';
-import { albums } from "../data/albums";
 import { ToastProvider } from '../components/ToastProvider';
 
 import LatestPostsCarousel from '../components/LatestPostsCarousel';
@@ -96,9 +95,7 @@ export default function Home() {
         <PageTransition>
           {/* 🌟 调整整体容器的内边距，适应手机端更小的屏幕 */}
           <div className="w-full max-w-6xl mx-auto mt-24 sm:mt-28 px-4 sm:px-6 lg:px-10 relative z-10">
-            <HeroBanner />
-
-            <div className="mt-8"><SearchBar posts={allPosts} /></div>
+            <SearchBar posts={allPosts} />
 
             <main className="flex flex-col gap-6 w-full mt-6">
 
