@@ -1,4 +1,4 @@
-import 'katex/dist/katex.min.css';
+import "katex/dist/katex.min.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Serif_SC } from "next/font/google";
 import "./globals.css";
@@ -11,10 +11,9 @@ import ClickEffect from "../components/ClickEffect";
 import BackgroundSlider from "../components/BackgroundSlider";
 import GlobalToolbox from "../components/GlobalToolbox";
 import SplashScreen from "../components/SplashScreen";
-import CyberCat from '../components/CyberCat';
-import DanmakuBackground from '../components/DanmakuBackground';
-
-import MobileBackButton from '../components/MobileBackButton';
+import CyberCat from "../components/CyberCat";
+import DanmakuBackground from "../components/DanmakuBackground";
+import MobileBackButton from "../components/MobileBackButton";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -23,12 +22,55 @@ const notoSerif = Noto_Serif_SC({
   subsets: ["latin"],
   weight: ["400", "700", "900"],
   variable: "--font-serif",
-  display: 'swap',
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: siteConfig.title,
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.title}`,
+  },
   description: siteConfig.bio,
+  keywords: ["博客", "技术", "数码", "摄影", "Digital Garden", "JayChou", "二次元", "ACG"],
+  authors: [{ name: siteConfig.authorName, url: siteConfig.social.github }],
+  creator: siteConfig.authorName,
+  publisher: siteConfig.authorName,
+  metadataBase: new URL("https://volga-blog.vercel.app"),
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
+  },
+  openGraph: {
+    type: "website",
+    locale: "zh_CN",
+    url: "https://volga-blog.vercel.app",
+    siteName: siteConfig.title,
+    title: siteConfig.title,
+    description: siteConfig.bio,
+    images: [{
+      url: siteConfig.avatarUrl,
+      width: 512,
+      height: 512,
+      alt: siteConfig.title,
+    }],
+  },
+  twitter: {
+    card: "summary",
+    title: siteConfig.title,
+    description: siteConfig.bio,
+    images: [siteConfig.avatarUrl],
+    creator: "@jaychou4399",
+  },
+  appleWebApp: {
+    capable: true,
+    title: siteConfig.title,
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: { telephone: false },
   icons: {
     icon: siteConfig.faviconUrl,
     apple: siteConfig.faviconUrl,
@@ -53,8 +95,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                if (sessionStorage.getItem('hasSeenSplash') === 'true') {
-                  document.documentElement.classList.add('splash-seen');
+                if (sessionStorage.getItem("hasSeenSplash") === "true") {
+                  document.documentElement.classList.add("splash-seen");
                 }
               } catch (e) {}
             `
@@ -64,9 +106,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
       <body className="w-screen overflow-x-hidden min-h-full flex flex-col relative transition-colors duration-1000 bg-slate-50 dark:bg-slate-950 font-serif">
         <ThemeProvider>
-
           <SplashScreen />
-
           <MusicProvider>
             <div id="app-mount-root" className="flex-1 flex flex-col transition-opacity duration-1000">
               <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
@@ -76,23 +116,20 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <div
                   className="absolute inset-0 z-[-8] opacity-60 dark:opacity-20 mix-blend-color transition-opacity duration-1000 transform-gpu"
                   style={{
-                    background: `linear-gradient(-45deg, ${siteConfig.themeColors.join(', ')})`,
-                    backgroundSize: '400% 400%',
-                    animation: 'gradientMove 15s ease infinite' // 🌟 全端保留渐变流动
+                    background: `linear-gradient(-45deg, ${siteConfig.themeColors.join(", ")})`,
+                    backgroundSize: "400% 400%",
+                    animation: "gradientMove 15s ease infinite"
                   }}
                 ></div>
 
-                {/* 👇 🌟 优化：手机端去掉了 mix-blend-overlay，但保留了 blur 模糊光晕，确保视觉不打折 */}
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/40 dark:bg-indigo-900/20 blur-[100px] rounded-full z-[-7] md:mix-blend-overlay"></div>
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-400/30 dark:bg-purple-900/30 blur-[100px] rounded-full z-[-7] md:mix-blend-overlay"></div>
 
-                {/* 隐藏手机端高负载粒子特效 */}
                 <div className="hidden md:block absolute inset-0 w-full h-full">
                   <BackgroundEffects />
                 </div>
               </div>
 
-              {/* 隐藏手机端弹幕 */}
               <div className="hidden md:block">
                 <DanmakuBackground />
               </div>
@@ -113,7 +150,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <MobileBackButton />
               </div>
 
-              {/* 隐藏手机端点击粒子 */}
               <div className="hidden md:block">
                 <ClickEffect />
               </div>
@@ -131,7 +167,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <div className="hidden md:block">
             <CyberCat />
           </div>
-
         </ThemeProvider>
       </body>
     </html>

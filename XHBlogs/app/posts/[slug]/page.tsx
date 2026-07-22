@@ -24,6 +24,7 @@ import BackButton from '../../../components/BackButton';
 import Comments from '../../../components/Comments';
 import SidebarLyric from '../../../components/SidebarLyric';
 import PostEnhancements from '../../../components/PostEnhancements';
+import AISummary from '../../../components/AISummary';
 
 export async function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), 'posts');
@@ -259,6 +260,8 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
                     .prose img { margin: 2rem auto !important; border-radius: 2rem !important; box-shadow: 0 20px 50px rgba(0,0,0,0.15) !important; }
                   }
                 `}</style>
+                <AISummary slug={postData.slug} />
+
 
                 <div
                   id="article-content"

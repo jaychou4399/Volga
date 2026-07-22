@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from 'react';
-import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface Post {
   slug: string;
@@ -14,14 +14,14 @@ interface Post {
 }
 
 const escapeRegExp = (string: string) => {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 };
 
-const Highlight = ({ text = '', query = '' }) => {
+const Highlight = ({ text = "", query = "" }) => {
   if (!query.trim() || !text) return <>{text}</>;
 
   const safeQuery = escapeRegExp(query);
-  const regex = new RegExp(`(${safeQuery})`, 'gi');
+  const regex = new RegExp(`(${safeQuery})`, "gi");
   const parts = String(text).split(regex);
 
   return (
@@ -40,9 +40,13 @@ const Highlight = ({ text = '', query = '' }) => {
 };
 
 export default function SearchBar({ posts = [] }: { posts: Post[] }) {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [aiMode, setAiMode] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiResults, setAiResults] = useState<Post[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -50,32 +54,60 @@ export default function SearchBar({ posts = [] }: { posts: Post[] }) {
         setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const searchResults = useMemo(() => {
+  // 关键词搜索结果（本地）
+  const keywordResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
     const query = searchQuery.toLowerCase();
-
     return posts.filter(post => {
-      const titleMatch = (post.title || '').toLowerCase().includes(query);
-      const descMatch = (post.description || '').toLowerCase().includes(query);
+      const titleMatch = (post.title || "").toLowerCase().includes(query);
+      const descMatch = (post.description || "").toLowerCase().includes(query);
       const tagMatch = (post.tags || []).some(tag => tag.toLowerCase().includes(query));
-
       return titleMatch || descMatch || tagMatch;
     });
   }, [searchQuery, posts]);
 
+  // AI 搜索（服务端）
+  const doAiSearch = useCallback(async (query: string) => {
+    if (!query.trim()) { setAiResults([]); return; }
+    setAiLoading(true);
+    try {
+      const res = await fetch("/api/ai-search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query }),
+      });
+      const data = await res.json();
+      setAiResults(data.results || []);
+    } catch {
+      setAiResults([]);
+    } finally {
+      setAiLoading(false);
+    }
+  }, []);
+
+  // 防抖 AI 搜索
+  useEffect(() => {
+    if (!aiMode) return;
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      doAiSearch(searchQuery);
+    }, 500);
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
+  }, [searchQuery, aiMode, doAiSearch]);
+
+  const displayResults = aiMode ? aiResults : keywordResults;
+
   return (
     <div className="relative w-full max-w-2xl mx-auto mb-10 z-[100]" ref={containerRef}>
       <form className="relative group" onSubmit={(e) => e.preventDefault()}>
-
-        {/* 先渲染 Input */}
         <input
           type="text"
-          className="w-full pl-14 pr-6 py-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-slate-800 dark:text-slate-200 transition-all placeholder-slate-500 dark:placeholder-slate-400 font-medium text-lg relative z-0"
-          placeholder="搜寻标题、描述或标签..."
+          className="w-full pl-14 pr-36 py-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-slate-800 dark:text-slate-200 transition-all placeholder-slate-500 dark:placeholder-slate-400 font-medium text-lg relative z-0"
+          placeholder={aiMode ? "AI 智能搜索 — 用自然语言描述你想找的内容..." : "搜寻标题、描述或标签..."}
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
@@ -86,27 +118,41 @@ export default function SearchBar({ posts = [] }: { posts: Post[] }) {
           spellCheck="false"
         />
 
-        {/* 🌟 核心修复：把放大镜放在 input 之后，并且加上 z-10 强制置顶！ */}
+        {/* 搜索图标 */}
         <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none select-none z-10">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-5 h-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors drop-shadow-sm"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+            className={`w-5 h-5 transition-colors drop-shadow-sm ${aiMode ? "text-purple-400" : "text-slate-400 group-focus-within:text-indigo-500"}`}
           >
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
         </div>
 
+        {/* AI 切换按钮 */}
+        <div className="absolute inset-y-0 right-0 pr-3 flex items-center z-10">
+          <button
+            type="button"
+            onClick={() => { setAiMode(!aiMode); setAiResults([]); }}
+            className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1 ${
+              aiMode
+                ? "bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-md shadow-purple-500/30"
+                : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600"
+            }`}
+          >
+            {aiMode ? (
+              <>{aiLoading ? <span className="inline-block w-2.5 h-2.5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <span>✨</span>} AI</>
+            ) : (
+              "AI 搜索"
+            )}
+          </button>
+        </div>
       </form>
 
+      {/* 搜索结果下拉 */}
       <AnimatePresence>
-        {isOpen && searchQuery.trim() !== '' && (
+        {isOpen && searchQuery.trim() !== "" && (
           <motion.div
             initial={{ opacity: 0, y: -10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -114,9 +160,19 @@ export default function SearchBar({ posts = [] }: { posts: Post[] }) {
             transition={{ duration: 0.2 }}
             className="absolute top-full left-0 right-0 mt-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-3xl border border-white/50 dark:border-slate-700/50 rounded-3xl shadow-2xl overflow-hidden max-h-[450px] overflow-y-auto z-20"
           >
-            {searchResults.length > 0 ? (
+            {aiLoading ? (
+              <div className="px-6 py-12 text-center flex flex-col items-center gap-3">
+                <div className="w-10 h-10 border-3 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                <p className="text-slate-500 dark:text-slate-400 font-medium">AI 正在理解你的问题...</p>
+              </div>
+            ) : displayResults.length > 0 ? (
               <div className="flex flex-col py-3">
-                {searchResults.map((post) => (
+                {aiMode && (
+                  <div className="px-6 py-2 text-xs text-purple-500 font-bold border-b border-slate-100 dark:border-slate-800">
+                    ✨ AI 为你找到 {displayResults.length} 篇相关文章
+                  </div>
+                )}
+                {displayResults.map((post: any) => (
                   <Link
                     href={`/posts/${post.slug}`}
                     key={post.slug}
@@ -129,20 +185,18 @@ export default function SearchBar({ posts = [] }: { posts: Post[] }) {
                       </h4>
                       {post.date && (
                         <span className="text-[10px] font-mono text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-2 py-1 rounded-md shrink-0 mt-1">
-                          {post.date.split(' ')[0]}
+                          {post.date.split(" ")[0]}
                         </span>
                       )}
                     </div>
-
                     {post.description && (
                       <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
                         <Highlight text={post.description} query={searchQuery} />
                       </p>
                     )}
-
                     {post.tags && post.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {post.tags.map(tag => (
+                        {post.tags.map((tag: string) => (
                           <span key={tag} className="flex items-center text-[10px] font-bold px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-0.5 opacity-60">
                               <line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line>
@@ -163,7 +217,7 @@ export default function SearchBar({ posts = [] }: { posts: Post[] }) {
                   </svg>
                 </div>
                 <p className="text-slate-500 dark:text-slate-400 font-medium">
-                  数据海中未发现关于 "<span className="text-indigo-500 font-bold">{searchQuery}</span>" 的踪迹
+                  {aiMode ? "AI 也没找到相关内容" : `未发现关于 "${searchQuery}" 的文章`}
                 </p>
               </div>
             )}
