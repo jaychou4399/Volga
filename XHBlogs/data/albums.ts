@@ -325,10 +325,6 @@ export const albums: Album[] = [
         "caption": "滕王阁03"
       },
       {
-        "url": "https://bu.dusays.com/2026/07/21/6a5f8d3e86d39.jpg",
-        "caption": "滕王阁04"
-      },
-      {
         "url": "https://bu.dusays.com/2026/07/23/6a623a7a256dd.jpg",
         "caption": "滕王阁内"
       },
