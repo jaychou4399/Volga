@@ -132,7 +132,7 @@ export default async function Home() {
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
                 <div className="col-span-1 lg:col-span-4 flex flex-col min-h-[300px]">
-                  <LatestPostsCarousel posts={top5Posts} />
+                  <LatestPostsCarousel posts={top5Chatters} />
                 </div>
                 <div className="col-span-1 lg:col-span-8 flex flex-col gap-6">
                   <Link href="/photowall" className="w-full rounded-3xl bg-white/40 dark:bg-slate-800/50 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-xl overflow-hidden transition-all duration-700 hover:scale-[1.02] relative group min-h-[200px] sm:min-h-[220px] flex-shrink-0">
