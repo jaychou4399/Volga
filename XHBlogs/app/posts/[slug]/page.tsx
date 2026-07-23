@@ -262,7 +262,7 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
                     .prose img { margin: 2rem auto !important; border-radius: 2rem !important; box-shadow: 0 20px 50px rgba(0,0,0,0.15) !important; }
                   }
                 `}</style>
-                {postData.aiSummary !== false && <AISummary slug={postData.slug} />}
+                <AISummary slug={postData.slug} />
 
 
                 <div id="article-content" className="prose prose-slate dark:prose-invert prose-base md:prose-lg max-w-none text-slate-800 dark:text-slate-200 transition-colors duration-700 scroll-smooth"><ContentRenderer contentHtml={postData.contentHtml} /></div>
