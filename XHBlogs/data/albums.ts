@@ -191,6 +191,170 @@ export const albums: Album[] = [
       {
         "url": "https://bu.dusays.com/2026/07/21/6a5f8d4e5b68e.jpg",
         "caption": "滕王阁02"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6233018b398.jpg",
+        "caption": "秋水广场"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6233659709a.jpg",
+        "caption": "滕王阁模型明阁"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62336b424e0.jpg",
+        "caption": "滕王阁模型宋阁"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62336da265a.jpg",
+        "caption": "滕王阁模型清阁"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62336eaeeed.jpg",
+        "caption": "滕王阁模型唐阁"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623393a95c9.jpg",
+        "caption": "滕王阁模型明阁"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62336772321.jpg",
+        "caption": "滕王阁模型元阁"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6233675ea88.jpg",
+        "caption": "滕王阁模型"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6233ac4b006.jpg",
+        "caption": "含沙射影"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6234f6694c3.jpg",
+        "caption": "神摄"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62351135ab4.jpg",
+        "caption": "秋水广场拍摄"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6235382f3aa.jpg",
+        "caption": "羚羊角"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62353d0a92b.jpg",
+        "caption": "桥"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623551af4a6.jpg",
+        "caption": "滕王阁模型现代01"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62355da96f8.jpg",
+        "caption": "魔童"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62355ea4af4.jpg",
+        "caption": "滕王阁现代"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62355f36698.jpg",
+        "caption": "灵珠"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6235507af97.jpg",
+        "caption": "江博"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623558798db.jpg",
+        "caption": "滕王阁外"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62369974efd.jpg",
+        "caption": "滕王阁上看到的南昌之星"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6236d18d39c.jpg",
+        "caption": "滕王阁远眺01"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6236d2b8ba4.jpg",
+        "caption": "滕王阁远眺02"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6236e8e82c2.jpg",
+        "caption": "滕王阁模型现代02"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6236eb73351.jpg",
+        "caption": "滕王阁远眺03"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a62355ea4af4.jpg",
+        "caption": "滕王阁模型现代03"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6236f18c31c.jpg",
+        "caption": "滕王阁阁楼顶"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6236f29a679.jpg",
+        "caption": "滕王阁远眺04"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6236d924966.jpg",
+        "caption": "滕王阁远眺05"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a6236d818ae3.jpg",
+        "caption": "滕王阁远眺06"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623a3e4ccee.jpg",
+        "caption": "滕王阁远眺07"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623a49a9101.jpg",
+        "caption": "滕王阁远眺08"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623a621a976.jpg",
+        "caption": "滕王阁远眺09"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623a689c13d.jpg",
+        "caption": "滕王阁03"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/21/6a5f8d3e86d39.jpg",
+        "caption": "滕王阁04"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623a7a256dd.jpg",
+        "caption": "滕王阁内"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623a763387a.jpg",
+        "caption": "滕王阁远眺10"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623a7c3bfd6.jpg",
+        "caption": "滕王阁远眺11"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/23/6a623a763387a.jpg",
+        "caption": "滕王阁远眺10"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/24/6a623be88d0b0.jpg",
+        "caption": "八一广场01"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/24/6a623bf69d916.jpg",
+        "caption": "八一广场02"
+      },
+      {
+        "url": "https://bu.dusays.com/2026/07/24/6a623bfb77907.jpg",
+        "caption": "江美"
       }
     ]
   }
