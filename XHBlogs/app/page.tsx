@@ -133,13 +133,21 @@ export default async function Home() {
   // 并行获取项目数（缓存 1 小时，不影响首页速度）
   const projectCount = await getProjectCount();
 
+
+  // 合并所有内容供搜索使用
+  const allSearchItems = [
+    ...allPosts.map((p: any) => ({ ...p, type: "posts" })),
+    ...allChatters.map((c: any) => ({ ...c, type: "chatter" })),
+    ...allMoments.map((m: any) => ({ ...m, type: "moments" })),
+  ];
+
   return (
     <ToastProvider>
       <div className="min-h-screen relative pb-10">
         <Navbar />
         <PageTransition>
           <div className="w-full max-w-6xl mx-auto mt-24 sm:mt-28 px-4 sm:px-6 lg:px-10 relative z-10">
-            <SearchBar posts={allPosts} />
+            <SearchBar posts={allSearchItems} />
 
             <main className="flex flex-col gap-6 w-full mt-6">
 

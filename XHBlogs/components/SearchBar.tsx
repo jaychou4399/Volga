@@ -103,11 +103,32 @@ export default function SearchBar({ posts = [] }: { posts: Post[] }) {
 
   return (
     <div className="relative w-full max-w-2xl mx-auto mb-10 z-[100]" ref={containerRef}>
+      
+      {/* 热门标签快捷入口 */}
+      <div className="flex flex-wrap gap-2 justify-center mb-3">
+        {(() => {
+          const allTags = posts.flatMap((p: any) => p.tags || []);
+          const tagCount: Record<string, number> = {};
+          allTags.forEach((t: string) => { tagCount[t] = (tagCount[t] || 0) + 1; });
+          const topTags = Object.entries(tagCount).sort((a, b) => b[1] - a[1]).slice(0, 8);
+          return topTags.map(([tag, count]) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => { setSearchQuery(tag); setIsOpen(true); }}
+              className="px-3 py-1.5 text-xs font-bold bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-full text-slate-600 dark:text-slate-300 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 hover:border-indigo-300 dark:hover:border-indigo-500/30 transition-all shadow-sm"
+            >
+              #{tag}
+              <span className="ml-1 text-[10px] text-slate-400">({count})</span>
+            </button>
+          ));
+        })()}
+      </div>
       <form className="relative group" onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
           className="w-full pl-14 pr-36 py-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-slate-800 dark:text-slate-200 transition-all placeholder-slate-500 dark:placeholder-slate-400 font-medium text-lg relative z-0"
-          placeholder={aiMode ? "AI 智能搜索 — 用自然语言描述你想找的内容..." : "搜寻标题、描述或标签..."}
+          placeholder={aiMode ? "AI 智能搜索 — 用自然语言描述你想找的内容..." : "搜索文章、杂谈、说说... 支持标签搜索"}
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
@@ -174,7 +195,7 @@ export default function SearchBar({ posts = [] }: { posts: Post[] }) {
                 )}
                 {displayResults.map((post: any) => (
                   <Link
-                    href={`/posts/${post.slug}`}
+                    href={post.type === "chatter" ? `/chatter/${post.slug}` : post.type === "moments" ? `/moments` : `/posts/${post.slug}`}
                     key={post.slug}
                     onClick={() => setIsOpen(false)}
                     className="px-6 py-5 hover:bg-indigo-50/80 dark:hover:bg-indigo-500/10 transition-colors group border-b border-slate-100/50 dark:border-slate-800/50 last:border-0 flex flex-col gap-2"
