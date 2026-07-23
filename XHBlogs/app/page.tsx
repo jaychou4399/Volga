@@ -80,6 +80,30 @@ export default async function Home() {
 
   const top5Posts = allPosts.length > 0 ? allPosts.slice(0, 5) : [{ slug: "none", title: "暂无文章", description: "快去写第一篇吧！", cover: siteConfig.defaultPostCover, date: "", formattedDate: "" }];
 
+
+  const momentsDirectory = path.join(process.cwd(), "moments");
+  let allMoments: any[] = [];
+  try {
+    if (fs.existsSync(momentsDirectory)) {
+      const momentFiles = fs.readdirSync(momentsDirectory).filter(f => f.endsWith(".md"));
+      allMoments = momentFiles.map(fileName => {
+        const fullPath = path.join(momentsDirectory, fileName);
+        const { data, content } = matter(fs.readFileSync(fullPath, "utf8"));
+        const rawDate = data.date || "1970-01-01";
+        const cover = data.images && data.images.length > 0 ? data.images[0] : siteConfig.defaultPostCover;
+        const title = content ? content.trim().split('\n')[0].replace(/^#+\s*/, '').substring(0, 30) : "说说";
+        return { slug: fileName.replace(/\.md$/, ""), title: title, description: content ? content.trim().substring(0, 80) : "", cover: cover, date: rawDate, formattedDate: formatUpdateTime(rawDate) };
+      }).sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        if (dateB !== dateA) return dateB - dateA;
+        return b.slug.localeCompare(a.slug);
+      });
+    }
+  } catch (e) {}
+
+  const top5Moments = allMoments.length > 0 ? allMoments.slice(0, 5) : [{ slug: "none", title: "暂无说说", description: "发一条说说吧...", cover: siteConfig.defaultPostCover, date: "", formattedDate: "" }];
+
   const chattersDirectory = path.join(process.cwd(), "chatters");
   let allChatters: any[] = [];
   try {
@@ -132,7 +156,7 @@ export default async function Home() {
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
                 <div className="col-span-1 lg:col-span-4 flex flex-col min-h-[300px]">
-                  <LatestPostsCarousel posts={top5Chatters} />
+                  <LatestPostsCarousel posts={top5Moments} />
                 </div>
                 <div className="col-span-1 lg:col-span-8 flex flex-col gap-6">
                   <Link href="/photowall" className="w-full rounded-3xl bg-white/40 dark:bg-slate-800/50 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-xl overflow-hidden transition-all duration-700 hover:scale-[1.02] relative group min-h-[200px] sm:min-h-[220px] flex-shrink-0">
