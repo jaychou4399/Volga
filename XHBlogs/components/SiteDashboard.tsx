@@ -14,7 +14,7 @@ export default function SiteDashboard({ postCount = 0, projectCount = 0, photoCo
   const [timeStr, setTimeStr] = useState("");
   const [uptimeStr, setUptimeStr] = useState("");
 
-  const START_DATE = new Date(siteConfig.buildDate || "2026-03-23T00:00:00").getTime();
+  const START_DATE = new Date("2026-07-21T00:00:00").getTime();
 
   useEffect(() => {
     const updateTime = () => {
