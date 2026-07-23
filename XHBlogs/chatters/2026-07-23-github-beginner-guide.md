@@ -2,7 +2,7 @@
 title: "GitHub 零基础入门教程：从小白到日常使用"
 date: "2026-07-23"
 description: "保姆级 GitHub 教程：注册、Git 安装、仓库创建、提交推送、分支管理、协作开发，一步步带你上手"
-cover: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=1200&h=675&fit=crop"
+cover: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=675&fit=crop"
 tags: ["GitHub", "Git", "教程", "效率工具"]
 ---
 
