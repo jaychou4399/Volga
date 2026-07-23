@@ -11,6 +11,7 @@ import ClickEffect from "../components/ClickEffect";
 import BackgroundSlider from "../components/BackgroundSlider";
 import GlobalToolbox from "../components/GlobalToolbox";
 import SplashScreen from "../components/SplashScreen";
+import Live2DMiku from '../components/Live2DMiku';
 import BackToTop from '../components/BackToTop';
 import CyberCat from "../components/CyberCat";
 import DanmakuBackground from "../components/DanmakuBackground";
@@ -190,6 +191,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <CyberCat />
           </div>
           <BackToTop />
+                  <Live2DMiku />
         </ThemeProvider>
       </body>
     </html>
