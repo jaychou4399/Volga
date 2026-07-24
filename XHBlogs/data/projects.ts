@@ -30,6 +30,15 @@ export const projectsData: Project[] = [
     stars: 1
   },
   {
+    id: "acg",
+    name: "ACG",
+    githubUrl: "https://github.com/jaychou4399/ACG",
+    description: "ACG 相关前端样式项目，基于 CSS 构建，探索二次元风格的视觉设计与动画效果。",
+    icon: "🎀",
+    tags: ["CSS", "Frontend", "ACG"],
+    stars: 0
+  },
+  {
     id: "first-project",
     name: "My First Project",
     githubUrl: "https://github.com/jaychou4399/my--first--project",
